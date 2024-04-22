@@ -50,7 +50,9 @@ function handleCardFormSubmit(evt) {
         name: placeInput.value,
         link: photoInput.value,
       },
-      deleteCard
+      deleteCard,
+      showPhoto,
+      like
     )
   );
   addCardForm.reset();
