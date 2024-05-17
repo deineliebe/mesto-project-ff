@@ -12,6 +12,13 @@ export const editProfileButton = document.querySelector(
 );
 export const editProfileModalWindow =
   document.querySelector(".popup_type_edit");
+export const editAvatarForm = document.forms["edit-profile-avatar"];
+export const avatarInput = editAvatarForm.querySelector(
+  ".popup__input_type_avatar"
+);
+export const editAvatarModalWindow = document.querySelector(
+  ".popup_type_edit-avatar"
+);
 export const addCardButton = document.querySelector(".profile__add-button");
 export const addCardModalWindow = document.querySelector(
   ".popup_type_new-card"
@@ -26,3 +33,12 @@ export const placesList = document.querySelector(".places__list");
 export const cardModaleWindow = document.querySelector(".popup_type_image");
 export const cardCaption = cardModaleWindow.querySelector(".popup__caption");
 export const cardImage = cardModaleWindow.querySelector(".popup__image");
+export const validationSettings = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button-disabled",
+  inputErrorClass: "popup__input-error",
+  errorClass: "popup__error",
+};
+export const headerLogo = document.querySelector(".profile__image");
