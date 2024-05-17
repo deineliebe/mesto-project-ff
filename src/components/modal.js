@@ -3,8 +3,6 @@ export function openModal(popup) {
   setTimeout(() => {
     popup.classList.add("popup_is-opened");
   }, 0);
-  document.addEventListener("keydown", escClose);
-  document.addEventListener("click", buttonClose);
 }
 
 export function closeModal(popup) {
@@ -16,16 +14,22 @@ export function closeModal(popup) {
   document.removeEventListener("click", buttonClose);
 }
 
-const escClose = function (evt) {
+export const escClose = function (evt) {
   if (evt.key === "Escape") {
     closeModal(document.querySelector(".popup_is-opened"));
+    return true;
   }
+  return false;
 };
 
-const buttonClose = (evt) => {
+export const buttonClose = (evt) => {
   if (evt.target.classList.contains("popup_is-opened")) {
     closeModal(evt.target);
-  } else if (evt.target.closest(".popup__close")) {
-    closeModal(evt.target.closest(".popup"));
+    return true;
   }
+  if (evt.target.closest(".popup__close")) {
+    closeModal(evt.target.closest(".popup"));
+    return true;
+  }
+  return false;
 };

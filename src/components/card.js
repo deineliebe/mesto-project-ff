@@ -7,7 +7,7 @@ import {
 } from "./constants.js";
 import { removeCard, setLike, removeLike } from "./api.js";
 
-export function addCard(cardData, deleteCard, showPhoto, like, id) {
+export function addCard(cardData, deleteCard, like, id) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   cardElement.querySelector(".card__image").src = cardData.link;
@@ -19,7 +19,6 @@ export function addCard(cardData, deleteCard, showPhoto, like, id) {
     like(evt, likesCount, cardData._id)
   );
   const cardDeleteButton = cardElement.querySelector(".card__delete-button");
-  console.log(cardData);
   if (cardData.owner._id === id) {
     cardDeleteButton.addEventListener("click", () =>
       deleteCard(cardElement, cardData._id)
@@ -27,9 +26,6 @@ export function addCard(cardData, deleteCard, showPhoto, like, id) {
   } else {
     cardDeleteButton.disabled = true;
   }
-  cardElement
-    .querySelector(".card__image")
-    .addEventListener("click", () => showPhoto(cardData));
   return cardElement;
 }
 
