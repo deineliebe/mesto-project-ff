@@ -56,7 +56,7 @@ function initData() {
       userId = users._id;
       for (let initialCard of cards) {
         try {
-          let newPlace = addCard(initialCard, deleteCard, like, userId);
+          const newPlace = addCard(initialCard, deleteCard, like, userId);
           newPlace
             .querySelector(".card__image")
             .addEventListener("click", () => {
@@ -64,11 +64,6 @@ function initData() {
               document.addEventListener("keydown", escClose);
               document.addEventListener("click", buttonClose);
             });
-          if (initialCard.likes.some((like) => like._id === userId)) {
-            newPlace
-              .querySelector(".card__like-button")
-              .classList.add("card__like-button_is-active");
-          }
           placesList.append(newPlace);
         } catch (err) {
           console.log(err);
@@ -82,48 +77,21 @@ function initData() {
 
 const openEditProfileModalWindow = function () {
   openModal(editProfileModalWindow);
-  document.addEventListener(
-    "keydown",
-    function editProfileButtonProcessing(evt) {
-      if (escClose(evt)) {
-        nameInput.value = nameTitle.textContent;
-        jobInput.value = jobDescription.textContent;
-        clearValidation(validationSettings, editProfileForm);
-        document.removeEventListener("keydown", editProfileButtonProcessing);
-      }
-    }
-  );
-  document.addEventListener("click", function editProfileClickProcessing(evt) {
-    if (buttonClose(evt)) {
-      nameInput.value = nameTitle.textContent;
-      jobInput.value = jobDescription.textContent;
-      clearValidation(validationSettings, editProfileForm);
-      document.removeEventListener("click", editProfileClickProcessing);
-    }
-  });
+  editProfileModalWindow.querySelector(".popup__button").textContent =
+    "Сохранить";
+  nameInput.value = nameTitle.textContent;
+  jobInput.value = jobDescription.textContent;
+  clearValidation(validationSettings, editProfileForm);
 };
 
 editProfileButton.addEventListener("click", () => openEditProfileModalWindow());
 
 profileImage.addEventListener("click", () => {
   openModal(editAvatarModalWindow);
-  document.addEventListener(
-    "keydown",
-    function editAvatarButtonProcessing(evt) {
-      if (escClose(evt)) {
-        clearValidation(validationSettings, editAvatarForm);
-        editAvatarForm.reset();
-        document.removeEventListener("keydown", editAvatarButtonProcessing);
-      }
-    }
-  );
-  document.addEventListener("click", function editAvatarClickProcessing(evt) {
-    if (buttonClose(evt)) {
-      clearValidation(validationSettings, editAvatarForm);
-      editAvatarForm.reset();
-      document.removeEventListener("click", editAvatarClickProcessing);
-    }
-  });
+  editAvatarModalWindow.querySelector(".popup__button").textContent =
+    "Сохранить";
+  clearValidation(validationSettings, editAvatarForm);
+  editAvatarForm.reset();
 });
 
 editAvatarForm.addEventListener("submit", handleProfileAvatarFormSubmit);
@@ -131,12 +99,11 @@ editAvatarForm.addEventListener("submit", handleProfileAvatarFormSubmit);
 function handleProfileAvatarFormSubmit(evt) {
   evt.preventDefault();
   const currentForm = document.querySelector(".popup_is-opened");
-  currentForm.querySelector(".popup__button").textContent = "Сохранение...";
   updateProfileAvatar(avatarInput.value)
-    .then(() => {
+    .then((res) => {
       profileImage.setAttribute(
         "style",
-        `background-image: url('${avatarInput.value}');`
+        `background-image: url('${res.avatar}');`
       );
       editAvatarForm.reset();
       clearValidation(validationSettings, editAvatarForm);
@@ -152,11 +119,10 @@ function handleProfileAvatarFormSubmit(evt) {
 function handleProfileInfoFormSubmit(evt) {
   evt.preventDefault();
   const currentForm = document.querySelector(".popup_is-opened");
-  currentForm.querySelector(".popup__button").textContent = "Сохранение...";
   updateInfoAboutUser(nameInput.value, jobInput.value)
-    .then(() => {
-      nameTitle.textContent = nameInput.value;
-      jobDescription.textContent = jobInput.value;
+    .then((res) => {
+      nameTitle.textContent = res.name;
+      jobDescription.textContent = res.about;
       clearValidation(validationSettings, editProfileForm);
       closeModal(currentForm);
     })
@@ -171,35 +137,25 @@ editProfileForm.addEventListener("submit", handleProfileInfoFormSubmit);
 
 addCardButton.addEventListener("click", () => {
   openModal(addCardModalWindow);
-  document.addEventListener("keydown", function addCardButtonProcessing(evt) {
-    if (escClose(evt)) {
-      addCardForm.reset();
-      clearValidation(validationSettings, addCardForm);
-      document.removeEventListener("keydown", addCardButtonProcessing);
-    }
-  });
-  document.addEventListener("click", function addCardClickProcessing(evt) {
-    if (buttonClose(evt)) {
-      addCardForm.reset();
-      clearValidation(validationSettings, addCardForm);
-      document.removeEventListener("click", addCardClickProcessing);
-    }
-  });
+  addCardForm.reset();
+  editAvatarModalWindow.querySelector(".popup__button").textContent =
+    "Сохранить";
+  clearValidation(validationSettings, addCardForm);
 });
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const currentForm = document.querySelector(".popup_is-opened");
-  currentForm.querySelector(".popup__button").textContent = "Сохранение...";
   postCard(placeInput.value, photoInput.value)
-    .then(() => {
+    .then((res) => {
       const cardInformation = {
-        name: placeInput.value,
-        link: photoInput.value,
+        name: res.name,
+        link: res.link,
         likes: [],
         owner: {
-          _id: userId,
+          _id: res.owner._id,
         },
+        _id: res._id,
       };
       const newPlace = addCard(cardInformation, deleteCard, like, userId);
       newPlace.querySelector(".card__image").addEventListener("click", () => {

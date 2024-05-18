@@ -3,6 +3,8 @@ export function openModal(popup) {
   setTimeout(() => {
     popup.classList.add("popup_is-opened");
   }, 0);
+  document.addEventListener("keydown", escClose);
+  document.addEventListener("click", buttonClose);
 }
 
 export function closeModal(popup) {

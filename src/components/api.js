@@ -6,12 +6,16 @@ export const getInfoAboutUser = () => {
     headers: {
       authorization: token,
     },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };
 
 export const getInfoAboutCards = () => {
@@ -19,12 +23,16 @@ export const getInfoAboutCards = () => {
     headers: {
       authorization: token,
     },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };
 
 export const updateInfoAboutUser = (name, about) => {
@@ -38,12 +46,16 @@ export const updateInfoAboutUser = (name, about) => {
       name: name,
       about: about,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };
 
 export const postCard = (name, link) => {
@@ -57,12 +69,16 @@ export const postCard = (name, link) => {
       name: name,
       link: link,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };
 
 export const removeCard = (id) => {
@@ -71,12 +87,16 @@ export const removeCard = (id) => {
     headers: {
       authorization: token,
     },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };
 
 export const setLike = (cardId) => {
@@ -86,12 +106,16 @@ export const setLike = (cardId) => {
       authorization: token,
       "Content-Type": "application/json",
     },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };
 
 export const removeLike = (cardId) => {
@@ -101,16 +125,20 @@ export const removeLike = (cardId) => {
       authorization: token,
       "Content-Type": "application/json",
     },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };
 
 export const updateProfileAvatar = (link) => {
-  return fetch(`${baseUrl}users/me/avatar `, {
+  return fetch(`${baseUrl}users/me/avatar`, {
     method: "PATCH",
     headers: {
       authorization: token,
@@ -119,10 +147,13 @@ export const updateProfileAvatar = (link) => {
     body: JSON.stringify({
       avatar: link,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .catch((err) => {
+      return Promise.reject(`Ошибка: ${err}`);
+    });
 };

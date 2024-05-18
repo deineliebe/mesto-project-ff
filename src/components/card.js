@@ -15,6 +15,11 @@ export function addCard(cardData, deleteCard, like, id) {
   cardElement.querySelector(".card__title").textContent = cardData.name;
   const likesCount = cardElement.querySelector(".card__like-count");
   likesCount.textContent = cardData.likes.length;
+  if (cardData.likes.some((like) => like._id === id)) {
+    cardElement
+      .querySelector(".card__like-button")
+      .classList.add("card__like-button_is-active");
+  }
   cardLikeButton.addEventListener("click", (evt) =>
     like(evt, likesCount, cardData._id)
   );
@@ -42,18 +47,25 @@ export function deleteCard(card, id) {
 export const like = function (evt, likesCount, id) {
   if (evt.target.classList.contains("card__like-button_is-active")) {
     removeLike(id)
-      .then((res) => (likesCount.textContent = res.likes.length))
+      .then((res) => {
+        likesCount.textContent = res.likes.length;
+        evt.target.classList.toggle("card__like-button_is-active");
+      })
       .catch((err) => {
         console.log(err);
+        return;
       });
   } else {
     setLike(id)
-      .then((res) => (likesCount.textContent = res.likes.length))
+      .then((res) => {
+        likesCount.textContent = res.likes.length;
+        evt.target.classList.toggle("card__like-button_is-active");
+      })
       .catch((err) => {
         console.log(err);
+        return;
       });
   }
-  evt.target.classList.toggle("card__like-button_is-active");
 };
 
 export const showPhoto = function (card) {

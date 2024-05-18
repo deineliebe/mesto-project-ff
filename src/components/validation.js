@@ -84,7 +84,6 @@ export const enableValidation = (validationSettings) => {
 };
 
 export const clearValidation = (validationSettings, formElement) => {
-  formElement.querySelector(".popup__button").textContent = "Сохранить";
   const inputList = Array.from(
     formElement.querySelectorAll(validationSettings.inputSelector)
   );
@@ -94,5 +93,6 @@ export const clearValidation = (validationSettings, formElement) => {
   for (let inputElement of inputList) {
     checkInputValidity(validationSettings, formElement, inputElement);
   }
-  toggleButtonState(validationSettings, inputList, submitButtonElement);
+  submitButtonElement.disabled = true;
+  submitButtonElement.classList.add(validationSettings.inactiveButtonClass);
 };
