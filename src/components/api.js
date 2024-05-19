@@ -8,9 +8,6 @@ const handleResponse = (response) => {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
     });
 };
 
