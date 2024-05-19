@@ -7,7 +7,7 @@ import {
 } from "./constants.js";
 import { removeCard, setLike, removeLike } from "./api.js";
 
-export function addCard(cardData, deleteCard, like, id) {
+export function createCard(cardData, deleteCard, like, id) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   cardElement.querySelector(".card__image").src = cardData.link;
@@ -45,32 +45,11 @@ export function deleteCard(card, id) {
 }
 
 export const like = function (evt, likesCount, id) {
-  if (evt.target.classList.contains("card__like-button_is-active")) {
-    removeLike(id)
-      .then((res) => {
-        likesCount.textContent = res.likes.length;
-        evt.target.classList.toggle("card__like-button_is-active");
-      })
-      .catch((err) => {
-        console.log(err);
-        return;
-      });
-  } else {
-    setLike(id)
-      .then((res) => {
-        likesCount.textContent = res.likes.length;
-        evt.target.classList.toggle("card__like-button_is-active");
-      })
-      .catch((err) => {
-        console.log(err);
-        return;
-      });
-  }
-};
-
-export const showPhoto = function (card) {
-  cardImage.src = card.link;
-  cardImage.alt = card.name;
-  cardCaption.textContent = card.name;
-  openModal(cardModaleWindow);
+  const likeMethod = evt.target.classList.contains("card__like-button_is-active") ? removeLike : setLike;
+  likeMethod(id) 
+  .then((res) => {
+    likesCount.textContent = res.likes.length; 
+    evt.target.classList.toggle("card__like-button_is-active"); 
+  })
+  .catch(err => console.log(err));
 };

@@ -12,15 +12,15 @@ import {
   profileImage,
   editAvatarForm,
   editAvatarModalWindow,
-  addCardButton,
-  addCardModalWindow,
-  addCardForm,
+  createCardButton,
+  createCardModalWindow,
+  createCardForm,
   placeInput,
   photoInput,
   placesList,
   validationSettings,
 } from "./components/constants.js";
-import { addCard, deleteCard, like, showPhoto } from "./components/card.js";
+import { createCard, deleteCard, like, showPhoto } from "./components/card.js";
 import {
   openModal,
   closeModal,
@@ -40,7 +40,7 @@ let userId;
 
 function initData() {
   clearValidation(validationSettings, editAvatarForm);
-  clearValidation(validationSettings, addCardForm);
+  clearValidation(validationSettings, createCardForm);
   Promise.all([getInfoAboutUser(), getInfoAboutCards()])
     .then((results) => {
       const users = results[0];
@@ -56,7 +56,7 @@ function initData() {
       userId = users._id;
       for (let initialCard of cards) {
         try {
-          const newPlace = addCard(initialCard, deleteCard, like, userId);
+          const newPlace = createCard(initialCard, deleteCard, like, userId);
           newPlace
             .querySelector(".card__image")
             .addEventListener("click", () => {
@@ -135,12 +135,19 @@ function handleProfileInfoFormSubmit(evt) {
 
 editProfileForm.addEventListener("submit", handleProfileInfoFormSubmit);
 
-addCardButton.addEventListener("click", () => {
-  openModal(addCardModalWindow);
-  addCardForm.reset();
+const showPhoto = function (card) {
+  cardImage.src = card.link;
+  cardImage.alt = card.name;
+  cardCaption.textContent = card.name;
+  openModal(cardModaleWindow);
+};
+
+createCardButton.addEventListener("click", () => {
+  openModal(createCardModalWindow);
+  createCardForm.reset();
   editAvatarModalWindow.querySelector(".popup__button").textContent =
     "Сохранить";
-  clearValidation(validationSettings, addCardForm);
+  clearValidation(validationSettings, createCardForm);
 });
 
 function handleCardFormSubmit(evt) {
@@ -157,15 +164,15 @@ function handleCardFormSubmit(evt) {
         },
         _id: res._id,
       };
-      const newPlace = addCard(cardInformation, deleteCard, like, userId);
+      const newPlace = createCard(cardInformation, deleteCard, like, userId);
       newPlace.querySelector(".card__image").addEventListener("click", () => {
         showPhoto(cardInformation);
         document.addEventListener("keydown", escClose);
         document.addEventListener("click", buttonClose);
       });
       placesList.prepend(newPlace);
-      addCardForm.reset();
-      clearValidation(validationSettings, addCardForm);
+      createCardForm.reset();
+      clearValidation(validationSettings, createCardForm);
       closeModal(document.querySelector(".popup_is-opened"));
     })
     .catch((err) => {
@@ -175,7 +182,7 @@ function handleCardFormSubmit(evt) {
     });
 }
 
-addCardForm.addEventListener("submit", handleCardFormSubmit);
+createCardForm.addEventListener("submit", handleCardFormSubmit);
 
 initData();
 enableValidation(validationSettings);

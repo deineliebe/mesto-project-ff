@@ -20,15 +20,15 @@ export const avatarInput = editAvatarForm.querySelector(
 export const editAvatarModalWindow = document.querySelector(
   ".popup_type_edit-avatar"
 );
-export const addCardButton = document.querySelector(".profile__add-button");
-export const addCardModalWindow = document.querySelector(
+export const createCardButton = document.querySelector(".profile__add-button");
+export const createCardModalWindow = document.querySelector(
   ".popup_type_new-card"
 );
-export const addCardForm = document.forms["new-place"];
-export const placeInput = addCardForm.querySelector(
+export const createCardForm = document.forms["new-place"];
+export const placeInput = createCardForm.querySelector(
   ".popup__input_type_card-name"
 );
-export const photoInput = addCardForm.querySelector(".popup__input_type_url");
+export const photoInput = createCardForm.querySelector(".popup__input_type_url");
 export const cardTemplate = document.querySelector("#card-template").content;
 export const placesList = document.querySelector(".places__list");
 export const cardModaleWindow = document.querySelector(".popup_type_image");
