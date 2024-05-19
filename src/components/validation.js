@@ -65,7 +65,6 @@ const setEventListeners = (validationSettings, formElement) => {
   );
 
   toggleButtonState(validationSettings, inputList, submitButtonElement);
-  formElement.reset();
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
       checkInputValidity(validationSettings, formElement, inputElement);
@@ -93,5 +92,6 @@ export const clearValidation = (validationSettings, formElement) => {
   for (let inputElement of inputList) {
     hideInputError(validationSettings, formElement, inputElement);
   }
+  formElement.reset();
   toggleButtonState(validationSettings, inputList, submitButtonElement);
 };

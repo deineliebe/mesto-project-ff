@@ -80,9 +80,9 @@ function initData() {
 
 const openEditProfileModalWindow = function () {
   openModal(editProfileModalWindow);
+  clearValidation(validationSettings, editProfileForm);
   nameInput.value = nameTitle.textContent;
   jobInput.value = jobDescription.textContent;
-  clearValidation(validationSettings, editProfileForm);
 };
 
 editProfileButton.addEventListener("click", () => openEditProfileModalWindow());
@@ -90,7 +90,6 @@ editProfileButton.addEventListener("click", () => openEditProfileModalWindow());
 profileImage.addEventListener("click", () => {
   openModal(editAvatarModalWindow);
   clearValidation(validationSettings, editAvatarForm);
-  editAvatarForm.reset();
 });
 
 editAvatarForm.addEventListener("submit", handleProfileAvatarFormSubmit);
@@ -104,7 +103,6 @@ function handleProfileAvatarFormSubmit(evt) {
         "style",
         `background-image: url('${res.avatar}');`
       );
-      editAvatarForm.reset();
       clearValidation(validationSettings, editAvatarForm);
       closeModal(currentForm);
     })
@@ -154,15 +152,13 @@ function handleCardFormSubmit(evt) {
     .then((res) => {
       const newPlace = createCard(res, deleteCard, like, userId);
       newPlace.querySelector(".card__image").addEventListener("click", () => {
-        console.log(res);
         showPhoto(res);
         document.addEventListener("keydown", escClose);
         document.addEventListener("click", buttonClose);
       });
       placesList.prepend(newPlace);
-      createCardForm.reset();
       clearValidation(validationSettings, createCardForm);
-      closeModal(document.querySelector(".popup_is-opened"));
+      closeModal(createCardModalWindow);
     })
     .catch((err) => console.log(err))
     .finally(
