@@ -1,12 +1,8 @@
 const baseUrl = "https://nomoreparties.co/v1/wff-cohort-13/";
 const token = "a9eb423b-33a6-404a-b572-1ad62523083e";
 
-export const getInfoAboutUser = () => {
-  return fetch(`${baseUrl}users/me`, {
-    headers: {
-      authorization: token,
-    },
-  })
+const handleResponse = (response) => {
+  return response
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -16,144 +12,106 @@ export const getInfoAboutUser = () => {
     .catch((err) => {
       return Promise.reject(`Ошибка: ${err}`);
     });
+};
+
+export const getInfoAboutUser = () => {
+  return handleResponse(
+    fetch(`${baseUrl}users/me`, {
+      headers: {
+        authorization: token,
+      },
+    })
+  );
 };
 
 export const getInfoAboutCards = () => {
-  return fetch(`${baseUrl}cards`, {
-    headers: {
-      authorization: token,
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(
+    fetch(`${baseUrl}cards`, {
+      headers: {
+        authorization: token,
+      },
     })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
-    });
+  );
 };
 
 export const updateInfoAboutUser = (name, about) => {
-  return fetch(`${baseUrl}users/me`, {
-    method: "PATCH",
-    headers: {
-      authorization: token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: name,
-      about: about,
-    }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(
+    fetch(`${baseUrl}users/me`, {
+      method: "PATCH",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        about: about,
+      }),
     })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
-    });
+  );
 };
 
 export const postCard = (name, link) => {
-  return fetch(`${baseUrl}cards`, {
-    method: "POST",
-    headers: {
-      authorization: token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: name,
-      link: link,
-    }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(
+    fetch(`${baseUrl}cards`, {
+      method: "POST",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        link: link,
+      }),
     })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
-    });
+  );
 };
 
 export const removeCard = (id) => {
-  return fetch(`${baseUrl}cards/${id}`, {
-    method: "DELETE",
-    headers: {
-      authorization: token,
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(
+    fetch(`${baseUrl}cards/${id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: token,
+      },
     })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
-    });
+  );
 };
 
 export const setLike = (cardId) => {
-  return fetch(`${baseUrl}cards/likes/${cardId}`, {
-    method: "PUT",
-    headers: {
-      authorization: token,
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(
+    fetch(`${baseUrl}cards/likes/${cardId}`, {
+      method: "PUT",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
     })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
-    });
+  );
 };
 
 export const removeLike = (cardId) => {
-  return fetch(`${baseUrl}cards/likes/${cardId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: token,
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(
+    fetch(`${baseUrl}cards/likes/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
     })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
-    });
+  );
 };
 
 export const updateProfileAvatar = (link) => {
-  return fetch(`${baseUrl}users/me/avatar`, {
-    method: "PATCH",
-    headers: {
-      authorization: token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      avatar: link,
-    }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
+  return handleResponse(
+    fetch(`${baseUrl}users/me/avatar`, {
+      method: "PATCH",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        avatar: link,
+      }),
     })
-    .catch((err) => {
-      return Promise.reject(`Ошибка: ${err}`);
-    });
+  );
 };

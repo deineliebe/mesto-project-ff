@@ -19,8 +19,11 @@ import {
   photoInput,
   placesList,
   validationSettings,
+  cardModaleWindow,
+  cardCaption,
+  cardImage,
 } from "./components/constants.js";
-import { createCard, deleteCard, like, showPhoto } from "./components/card.js";
+import { createCard, deleteCard, like } from "./components/card.js";
 import {
   openModal,
   closeModal,
@@ -54,13 +57,13 @@ function initData() {
         `background-image: url('${users.avatar}');`
       );
       userId = users._id;
-      for (let initialCard of cards) {
+      for (let card of cards) {
         try {
-          const newPlace = createCard(initialCard, deleteCard, like, userId);
+          const newPlace = createCard(card, deleteCard, like, userId);
           newPlace
             .querySelector(".card__image")
             .addEventListener("click", () => {
-              showPhoto(initialCard);
+              showPhoto(card);
               document.addEventListener("keydown", escClose);
               document.addEventListener("click", buttonClose);
             });
@@ -77,8 +80,6 @@ function initData() {
 
 const openEditProfileModalWindow = function () {
   openModal(editProfileModalWindow);
-  editProfileModalWindow.querySelector(".popup__button").textContent =
-    "Сохранить";
   nameInput.value = nameTitle.textContent;
   jobInput.value = jobDescription.textContent;
   clearValidation(validationSettings, editProfileForm);
@@ -88,8 +89,6 @@ editProfileButton.addEventListener("click", () => openEditProfileModalWindow());
 
 profileImage.addEventListener("click", () => {
   openModal(editAvatarModalWindow);
-  editAvatarModalWindow.querySelector(".popup__button").textContent =
-    "Сохранить";
   clearValidation(validationSettings, editAvatarForm);
   editAvatarForm.reset();
 });
@@ -109,11 +108,12 @@ function handleProfileAvatarFormSubmit(evt) {
       clearValidation(validationSettings, editAvatarForm);
       closeModal(currentForm);
     })
-    .catch((err) => {
-      console.log(err);
-      currentForm.querySelector(".popup__button").textContent =
-        "Ошибка соединения";
-    });
+    .catch((err) => console.log(err))
+    .finally(
+      () =>
+        (editAvatarModalWindow.querySelector(".popup__button").textContent =
+          "Сохранить")
+    );
 }
 
 function handleProfileInfoFormSubmit(evt) {
@@ -126,11 +126,12 @@ function handleProfileInfoFormSubmit(evt) {
       clearValidation(validationSettings, editProfileForm);
       closeModal(currentForm);
     })
-    .catch((err) => {
-      console.log(err);
-      currentForm.querySelector(".popup__button").textContent =
-        "Ошибка соединения";
-    });
+    .catch((err) => console.log(err))
+    .finally(
+      () =>
+        (editProfileModalWindow.querySelector(".popup__button").textContent =
+          "Сохранить")
+    );
 }
 
 editProfileForm.addEventListener("submit", handleProfileInfoFormSubmit);
@@ -144,29 +145,17 @@ const showPhoto = function (card) {
 
 createCardButton.addEventListener("click", () => {
   openModal(createCardModalWindow);
-  createCardForm.reset();
-  editAvatarModalWindow.querySelector(".popup__button").textContent =
-    "Сохранить";
   clearValidation(validationSettings, createCardForm);
 });
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
-  const currentForm = document.querySelector(".popup_is-opened");
   postCard(placeInput.value, photoInput.value)
     .then((res) => {
-      const cardInformation = {
-        name: res.name,
-        link: res.link,
-        likes: [],
-        owner: {
-          _id: res.owner._id,
-        },
-        _id: res._id,
-      };
-      const newPlace = createCard(cardInformation, deleteCard, like, userId);
+      const newPlace = createCard(res, deleteCard, like, userId);
       newPlace.querySelector(".card__image").addEventListener("click", () => {
-        showPhoto(cardInformation);
+        console.log(res);
+        showPhoto(res);
         document.addEventListener("keydown", escClose);
         document.addEventListener("click", buttonClose);
       });
@@ -175,11 +164,12 @@ function handleCardFormSubmit(evt) {
       clearValidation(validationSettings, createCardForm);
       closeModal(document.querySelector(".popup_is-opened"));
     })
-    .catch((err) => {
-      console.log(err);
-      currentForm.querySelector(".popup__button").textContent =
-        "Ошибка соединения";
-    });
+    .catch((err) => console.log(err))
+    .finally(
+      () =>
+        (createCardModalWindow.querySelector(".popup__button").textContent =
+          "Сохранить")
+    );
 }
 
 createCardForm.addEventListener("submit", handleCardFormSubmit);

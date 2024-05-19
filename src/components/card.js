@@ -1,10 +1,4 @@
-import { openModal } from "./modal.js";
-import {
-  cardTemplate,
-  cardModaleWindow,
-  cardCaption,
-  cardImage,
-} from "./constants.js";
+import { cardTemplate } from "./constants.js";
 import { removeCard, setLike, removeLike } from "./api.js";
 
 export function createCard(cardData, deleteCard, like, id) {
@@ -45,11 +39,15 @@ export function deleteCard(card, id) {
 }
 
 export const like = function (evt, likesCount, id) {
-  const likeMethod = evt.target.classList.contains("card__like-button_is-active") ? removeLike : setLike;
-  likeMethod(id) 
-  .then((res) => {
-    likesCount.textContent = res.likes.length; 
-    evt.target.classList.toggle("card__like-button_is-active"); 
-  })
-  .catch(err => console.log(err));
+  const likeMethod = evt.target.classList.contains(
+    "card__like-button_is-active"
+  )
+    ? removeLike
+    : setLike;
+  likeMethod(id)
+    .then((res) => {
+      likesCount.textContent = res.likes.length;
+      evt.target.classList.toggle("card__like-button_is-active");
+    })
+    .catch((err) => console.log(err));
 };
