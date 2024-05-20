@@ -1,12 +1,14 @@
 import { cardTemplate } from "./constants.js";
 import { removeCard, setLike, removeLike } from "./api.js";
 
-export function createCard(cardData, deleteCard, like, id) {
+export function createCard(cardData, deleteCard, like, showPhoto, id) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   cardElement.querySelector(".card__image").src = cardData.link;
   cardElement.querySelector(".card__image").alt = cardData.name;
-  cardElement.querySelector(".card__image").addEventListener("click", () => { showPhoto(card); });
+  cardElement.querySelector(".card__image").addEventListener("click", () => {
+    showPhoto(cardData);
+  });
   cardElement.querySelector(".card__title").textContent = cardData.name;
   const likesCount = cardElement.querySelector(".card__like-count");
   likesCount.textContent = cardData.likes.length;

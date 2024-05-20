@@ -24,12 +24,7 @@ import {
   cardImage,
 } from "./components/constants.js";
 import { createCard, deleteCard, like } from "./components/card.js";
-import {
-  openModal,
-  closeModal,
-  buttonClose,
-  escClose,
-} from "./components/modal.js";
+import { openModal, closeModal } from "./components/modal.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
 import {
   getInfoAboutUser,
@@ -59,7 +54,13 @@ function initData() {
       userId = users._id;
       for (let card of cards) {
         try {
-          const newPlace = createCard(card, deleteCard, like, userId);
+          const newPlace = createCard(
+            card,
+            deleteCard,
+            like,
+            showPhoto,
+            userId
+          );
           placesList.append(newPlace);
         } catch (err) {
           console.log(err);
@@ -143,7 +144,7 @@ function handleCardFormSubmit(evt) {
   evt.preventDefault();
   postCard(placeInput.value, photoInput.value)
     .then((res) => {
-      const newPlace = createCard(res, deleteCard, like, userId);
+      const newPlace = createCard(res, deleteCard, like, showPhoto, userId);
       placesList.prepend(newPlace);
       clearValidation(validationSettings, createCardForm);
       closeModal(createCardModalWindow);
