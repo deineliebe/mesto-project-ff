@@ -60,13 +60,6 @@ function initData() {
       for (let card of cards) {
         try {
           const newPlace = createCard(card, deleteCard, like, userId);
-          newPlace
-            .querySelector(".card__image")
-            .addEventListener("click", () => {
-              showPhoto(card);
-              document.addEventListener("keydown", escClose);
-              document.addEventListener("click", buttonClose);
-            });
           placesList.append(newPlace);
         } catch (err) {
           console.log(err);
@@ -151,11 +144,6 @@ function handleCardFormSubmit(evt) {
   postCard(placeInput.value, photoInput.value)
     .then((res) => {
       const newPlace = createCard(res, deleteCard, like, userId);
-      newPlace.querySelector(".card__image").addEventListener("click", () => {
-        showPhoto(res);
-        document.addEventListener("keydown", escClose);
-        document.addEventListener("click", buttonClose);
-      });
       placesList.prepend(newPlace);
       clearValidation(validationSettings, createCardForm);
       closeModal(createCardModalWindow);

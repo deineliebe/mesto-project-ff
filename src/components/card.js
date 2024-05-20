@@ -6,6 +6,7 @@ export function createCard(cardData, deleteCard, like, id) {
   const cardLikeButton = cardElement.querySelector(".card__like-button");
   cardElement.querySelector(".card__image").src = cardData.link;
   cardElement.querySelector(".card__image").alt = cardData.name;
+  cardElement.querySelector(".card__image").addEventListener("click", () => { showPhoto(card); });
   cardElement.querySelector(".card__title").textContent = cardData.name;
   const likesCount = cardElement.querySelector(".card__like-count");
   likesCount.textContent = cardData.likes.length;
